@@ -8,10 +8,8 @@ JsonSerializerOptions options = new JsonSerializerOptions
 {
     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
 };
+const long max_date = -568080000; //01.01.1952 
 
-//2-3. Serialyzing to JSON format, writing result to file
-using (FileStream fs = new FileStream("Persons.json", FileMode.OpenOrCreate))
-{
     Random random = new Random();
     for (int i = 0; i < 10000; i++)
     {
@@ -90,12 +88,16 @@ using (FileStream fs = new FileStream("Persons.json", FileMode.OpenOrCreate))
 
                 children[j] = new Child(j, childFirstName, childLastName, childBirthDate, genChild);
             }
-            else { children[j] = new Child(j, "", "", 0, Enums.Male); }
+            else { children[j] = new Child(j, "", "", max_date, Enums.Male); }
         }
         Person tom = new Person(i, transportId, firstName, lastName, creditCardNumbers, age, phones, birthDate, salary, isMarred, gender, children);
         persons.Add(tom);
     }
 
+
+//2-3. Serialyzing to JSON format, writing result to file
+using (FileStream fs = new FileStream("Persons.json", FileMode.OpenOrCreate))
+{
     await JsonSerializer.SerializeAsync<List<Person>>(fs, persons, options);
 }
 
@@ -113,7 +115,7 @@ using (FileStream fs = new FileStream("Persons.json", FileMode.OpenOrCreate))
         count_credit_cards += person.CreditCardNumbers.Length;
         foreach (var child in person.Children)
         {
-            if (child.BirthDate != 0)
+            if (child.BirthDate != max_date)
             {
                 count_childs++;
                 age_childs += (child.BirthDate / 31536000);
