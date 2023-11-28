@@ -13,7 +13,7 @@ JsonSerializerOptions options = new JsonSerializerOptions
 using (FileStream fs = new FileStream("Persons.json", FileMode.OpenOrCreate))
 {
     Random random = new Random();
-    for (int a = 0; a < 10000; a++)
+    for (int i = 0; i < 10000; i++)
     {
 
         Guid transportId = Guid.NewGuid();
@@ -69,10 +69,10 @@ using (FileStream fs = new FileStream("Persons.json", FileMode.OpenOrCreate))
         Enums gender = (Enums)Enum.GetValues(typeof(Enums)).GetValue(gen);
 
         int countChildrens1 = random.Next(1, 5);
-        Child[] children1 = new Child[10];
-        for (int i = 0; i < children1.Length; i++)
+        Child[] children = new Child[10];
+        for (int j = 0; j < children.Length; j++)
         {
-            if (i < countChildrens1)
+            if (j < countChildrens1)
             {
 
                 int childName = random.Next(1, 10);
@@ -88,11 +88,11 @@ using (FileStream fs = new FileStream("Persons.json", FileMode.OpenOrCreate))
                 int genderChild = random.Next(1, 2);
                 Enums genChild = (Enums)Enum.GetValues(typeof(Enums)).GetValue(genderChild);
 
-                children1[i] = new Child(i, childFirstName, childLastName, childBirthDate, genChild);
+                children[j] = new Child(j, childFirstName, childLastName, childBirthDate, genChild);
             }
-            else { children1[i] = new Child(i, "", "", 0, Enums.Male); }
+            else { children[j] = new Child(j, "", "", 0, Enums.Male); }
         }
-        Person tom = new Person(a, transportId, firstName, lastName, creditCardNumbers, age, phones, birthDate, salary, isMarred, gender, children1);
+        Person tom = new Person(i, transportId, firstName, lastName, creditCardNumbers, age, phones, birthDate, salary, isMarred, gender, children);
         persons.Add(tom);
     }
 
